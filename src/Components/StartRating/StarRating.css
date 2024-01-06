@@ -1,0 +1,12 @@
+.star-rating {
+    display: inline-block;
+}
+
+.star-rating .filled {
+    color: gold;
+}
+
+.star-rating span {
+    color: lightgray;
+    font-size: 20px;
+}
