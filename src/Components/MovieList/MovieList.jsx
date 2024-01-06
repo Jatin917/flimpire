@@ -11,7 +11,7 @@ import StarRating from '../StartRating/StarRating';
 function MovieList({ Movies }) {
   const navigate = useNavigate();
   return (
-    <div className="flex gap-4 items-center flex-wrap justify-center px-4 py-4 border">
+    <div className="flex gap-4 items-center flex-wrap justify-center px-4 py-4">
       {Movies?.map((movie, i) => (
         <Link
           className={`flex flex-col ${'w-[200px] '}`}

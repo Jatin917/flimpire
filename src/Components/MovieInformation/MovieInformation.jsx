@@ -9,8 +9,9 @@ import { setFeatured, setType } from '../../features/MovieSlice';
 import MovieList from '../MovieList/MovieList';
 import Loader from '../Loader/Loader';
 import { Modal } from '..';
+import StarRating from '../StartRating/StarRating';
 
-function MovieInformation() {
+function MovieInformation({ isDarkMode }) {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const featured = useSelector((store) => store.movieList.featured);
@@ -40,7 +41,7 @@ function MovieInformation() {
       <div className="flex h-screen">
         {/* contianer for image of selected image */}
         <div className="flex items-center h-1/2 mt-[120px] justify-center">
-          <img className="w-[60%] shadow-black rounded-md" src={`https://image.tmdb.org/t/p/original/${selectedMovie?.poster_path}`} />
+          <img className={`w-[60%] ${isDarkMode ? 'shadow-white' : 'shadow-black'}  rounded-md`} src={`https://image.tmdb.org/t/p/original/${selectedMovie?.poster_path}`} />
         </div>
         {/* remaining details of selected image */}
         <div className="flex gap-3 flex-col px-8">
@@ -48,7 +49,7 @@ function MovieInformation() {
           <h3 className="text-xl text-center">{selectedMovie?.tagline}</h3>
           <div className="flex item-center justify-between">
             {/* eslint-disable-next-line no-unsafe-optional-chaining */}
-            <div>{selectedMovie?.vote_average / 2}</div>
+            <StarRating rating={selectedMovie?.vote_average} />
             <div>{`${selectedMovie?.runtime} min / ${selectedMovie?.spoken_languages[0]?.english_name}`}</div>
           </div>
 

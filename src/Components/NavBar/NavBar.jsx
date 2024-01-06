@@ -1,13 +1,17 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 // eslint-disable-next-line import/no-cycle
 import { FaSearch, MdDarkMode, CiLight, user, netflix } from '../index';
 import { setSearchParameter } from '../../features/MovieSlice';
 import Search from '../Search/Search';
 import { fetchToken } from '../../utils';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'react-toastify/dist/ReactToastify.css';
 
 function NavBar({ isDarkMode, setDarkMode }) {
   const { searchQuery } = useSelector((store) => store.movieList);
@@ -43,7 +47,7 @@ function NavBar({ isDarkMode, setDarkMode }) {
           >
             {isDarkMode ? <MdDarkMode /> : <CiLight />}
           </button>
-          {isAuthenticated ? <button onClick={() => fetchToken()}>Log in</button> : <button>My Movies</button>}
+          {isAuthenticated ? <button onClick={() => { toast.info('Working on this!'); }}>Log in</button> : <button>My Movies</button>}
         </div>
       </div>
     </div>

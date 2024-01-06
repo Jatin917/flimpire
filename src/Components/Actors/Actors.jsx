@@ -28,7 +28,7 @@ function Actors() {
       <div className="flex items-center justify-center flex-col w-full px-5">
         <div className="flex w-full gap-3 ">
           {/* contianer for image of selected image */}
-          <div className="flex items-centerpl-5 border mt-[10px] justify-center">
+          <div className="flex items-centerpl-5 mt-[10px] justify-center">
             <img
               className=" shadow-black rounded-md max-w-[250px]"
               src={`https://image.tmdb.org/t/p/original/${selectedProfile?.profile_path}`}

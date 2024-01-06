@@ -1,5 +1,6 @@
 .star-rating {
     display: inline-block;
+    cursor: pointer;
 }
 
 .star-rating .filled {
