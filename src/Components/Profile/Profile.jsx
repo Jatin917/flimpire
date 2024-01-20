@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDocumentData } from '../../firestore';
-import { setFvrtList } from '../../features/AuthSlice';
+import { setFvrtList, setWishList } from '../../features/AuthSlice';
 import { useGetMovieByIdQuery } from '../../services/TMDB';
 import MovieProfileList from '../MovieProfileList/MovieProfileList';
 
@@ -22,6 +22,8 @@ function Profile() {
           console.log(Data?.fvrtList, Data !== 'undefined');
           // eslint-disable-next-line no-unused-expressions
           Data !== 'undefined' && dispatch(setFvrtList(Data?.fvrtList));
+          // eslint-disable-next-line no-unused-expressions
+          Data !== 'undefined' && dispatch(setWishList(Data?.wishList));
         })
         .catch((err) => console.log(err));
     }

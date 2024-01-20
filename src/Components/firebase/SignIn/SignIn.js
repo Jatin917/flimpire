@@ -2,21 +2,23 @@
 import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import { app } from '../../../firebase';
 import './SignIn.css';
 
 // eslint-disable-next-line import/order
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAuthentication, setEmail, setPswd } from '../../../features/AuthSlice';
+import { app } from '../../../firebase';
 
 const auth = getAuth(app);
 function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { email, password } = useSelector((store) => store.userSlice);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  function signUpUser() {
+  function signInUser() {
     signInWithEmailAndPassword(auth, email, password)
       .then((value) => {
         toast.success(`signed in as ${value.user.email}`);
@@ -24,6 +26,7 @@ function SignIn() {
         const uid = value?.user?.uid;
         console.log('uid is ', uid);
         localStorage.setItem('uid', uid);
+        dispatch(setAuthentication(false));
         navigate(`/profile/${uid}`);
         // uploadingData(email,password);
         // setLogged(!logged);
@@ -64,7 +67,7 @@ function SignIn() {
           value={email}
           type="email"
           name="email"
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={(event) => dispatch(setEmail(event.target.value))}
         />
       </div>
 
@@ -78,13 +81,13 @@ function SignIn() {
           id="pass"
           type="password"
           name="password"
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={(event) => dispatch(setPswd(event.target.value))}
         />
       </div>
 
       <button
         className="bg-stone-800 px-3 py-1 rounded uppercase m-6 singUpbtn text-white"
-        onClick={signUpUser}
+        onClick={signInUser}
       >Sign In user
       </button>
       <button

@@ -6,19 +6,41 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 // eslint-disable-next-line import/no-cycle
-import { FaSearch, MdDarkMode, CiLight, user, netflix } from '../index';
+import { getAuth, signOut } from 'firebase/auth';
+// eslint-disable-next-line import/no-cycle
+import { FaSearch, MdDarkMode, CiLight } from '../index';
 import { setSearchParameter } from '../../features/MovieSlice';
 import Search from '../Search/Search';
 import { fetchToken } from '../../utils';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'react-toastify/dist/ReactToastify.css';
 import SignIn from '../firebase/SignIn/SignIn';
+import { app } from '../../firebase';
+import { setAuthentication } from '../../features/AuthSlice';
+
+const auth = getAuth(app);
 
 function NavBar({ isDarkMode, setDarkMode }) {
   const navigate = useNavigate();
-  const { searchQuery } = useSelector((store) => store.movieList);
-  const isAuthenticated = true;
   const dispatch = useDispatch();
+  // sign out function
+  function signout() {
+    signOut(auth).then(() => {
+      toast.success('Sign Out Successfully');
+      console.log('sign out successfully');
+      dispatch(setAuthentication(true));
+      navigate('/', { replace: true });
+      // Sign-out successful.
+    }).catch((err) => {
+      // An error happened.
+      console.log('problem in signing you out successfully');
+      toast.error(`Somethign went wrong ${err}`);
+    });
+  }
+
+  const uid = localStorage.getItem('uid');
+  const { searchQuery } = useSelector((store) => store.movieList);
+  const { isAuthenticated } = useSelector((store) => store.userSlice);
 
   return (
     <div
@@ -40,7 +62,7 @@ function NavBar({ isDarkMode, setDarkMode }) {
           <FaSearch />
           <Search />
         </div>
-        <div aria-placeholder="search here" className="flex items-center justify-between pr-6 w-[10%]">
+        <div aria-placeholder="search here" className="flex items-center  justify-between pr-6 w-[20%]">
           <button
             type="button"
             onClick={() => {
@@ -49,7 +71,8 @@ function NavBar({ isDarkMode, setDarkMode }) {
           >
             {isDarkMode ? <MdDarkMode /> : <CiLight />}
           </button>
-          {isAuthenticated ? <button onClick={() => { navigate('/auth'); }}>New</button> : <button>My Movies</button>}
+          {isAuthenticated ? <button onClick={() => { navigate('/auth'); }}>New</button> : <button onClick={() => navigate(`/profile/${uid}`)}>My Movies</button>}
+          {isAuthenticated || <button className="p-2" onClick={() => signout()}>Log Out</button>}
         </div>
       </div>
     </div>

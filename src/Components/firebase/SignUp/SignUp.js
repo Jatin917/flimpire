@@ -6,7 +6,7 @@ import { app } from '../../../firebase';
 import './SignUp.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setEmail, setPswd } from '../../../features/AuthSlice';
+import { setAuthentication, setEmail, setPswd } from '../../../features/AuthSlice';
 import { useMakingDatabase } from '../../../firestore';
 
 const auth = getAuth(app);
@@ -23,6 +23,7 @@ function SignUp() {
         const { uid } = value.user;
         localStorage.setItem('uid', uid);
         useMakingDatabase(email, password, wishList, fvrtList);
+        dispatch(setAuthentication(false));
         console.log('function execution completed');
       })
       .catch((err) => {

@@ -20,7 +20,6 @@ const userSlice = createSlice({
     // },
     setEmail(state, action) {
       state.email = action.payload;
-      state.isAuthenticated = false;
       state.uId = localStorage.getItem('uid');
     },
     setPswd(state, action) {
@@ -32,6 +31,9 @@ const userSlice = createSlice({
     setFvrtList(state, action) {
       state.fvrtList = action.payload;
     },
+    setAuthentication(state, action) {
+      state.isAuthenticated = action.payload;
+    },
     // addToFvrtList(state, action) {
     //   const size = state.fvrtList.length;
     //   state.fvrtList[size] = action.payload;
@@ -39,5 +41,5 @@ const userSlice = createSlice({
   },
 });
 
-export const { setEmail, setPswd, setFvrtList, setWishList } = userSlice.actions;
+export const { setEmail, setPswd, setFvrtList, setWishList, setAuthentication } = userSlice.actions;
 export default userSlice.reducer;

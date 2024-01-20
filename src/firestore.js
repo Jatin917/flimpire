@@ -142,47 +142,47 @@ export async function removeFromFvrtList(id) {
   }
 }
 
-// // eslint-disable-next-line no-unused-vars, consistent-return
-// export async function addToWishList(id) {
-//   const uid = localStorage.getItem('uid');
-//   const docRef = doc(db, 'users', uid);
-//   console.log('updating value');
-//   try {
-//     // id exist
-//     if (id) {
-//       await updateDoc(docRef, {
-//         wishList: arrayUnion(id), // Insert values
-//       });
-//       console.log('wishList updated successfully!');
-//     // eslint-disable-next-line brace-style
-//     }
-//   } catch (error) {
-//     console.error('Error updating wishList:', error);
-//   }
-// }
+// eslint-disable-next-line no-unused-vars, consistent-return
+export async function addToWishList(id) {
+  const uid = localStorage.getItem('uid');
+  const docRef = doc(db, 'users', uid);
+  console.log('updating value');
+  try {
+    // id exist
+    if (id) {
+      await updateDoc(docRef, {
+        wishList: arrayUnion(id), // Insert values
+      });
+      console.log('wishList updated successfully!');
+    // eslint-disable-next-line brace-style
+    }
+  } catch (error) {
+    console.error('Error updating wishList:', error);
+  }
+}
 
-// // removing from a list
-// // eslint-disable-next-line consistent-return
-// export async function removeFromWishList(id) {
-//   const uid = localStorage.getItem('uid');
-//   const docRef = doc(db, 'users', uid);
-//   console.log('updating value');
-//   try {
-//     // id exist
-//     if (id) {
-//       await updateDoc(docRef, {
-//         wishList: arrayRemove(id), // Insert values
-//       });
-//       console.log('wishList updated successfully!');
-//     // eslint-disable-next-line brace-style
-//     }
-//     // id is not given while calling function
-//     else {
-//       // return data
-//       // const data = docChecker(docRef);
-//       // return data;
-//     }
-//   } catch (error) {
-//     console.error('Error updating wishList:', error);
-//   }
-// }
+// removing from a list
+// eslint-disable-next-line consistent-return
+export async function removeFromWishList(id) {
+  const uid = localStorage.getItem('uid');
+  const docRef = doc(db, 'users', uid);
+  console.log('updating value');
+  try {
+    // id exist
+    if (id) {
+      await updateDoc(docRef, {
+        wishList: arrayRemove(id), // Insert values
+      });
+      console.log('wishList updated successfully!');
+    // eslint-disable-next-line brace-style
+    }
+    // id is not given while calling function
+    else {
+      // return data
+      // const data = docChecker(docRef);
+      // return data;
+    }
+  } catch (error) {
+    console.error('Error updating wishList:', error);
+  }
+}

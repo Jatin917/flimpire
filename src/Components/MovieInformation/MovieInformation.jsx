@@ -10,11 +10,12 @@ import MovieList from '../MovieList/MovieList';
 import Loader from '../Loader/Loader';
 import { Modal } from '..';
 import StarRating from '../StartRating/StarRating';
-import { addToFvrtList, removeFromFvrtList } from '../../firestore';
+import { addToFvrtList, addToWishList, removeFromFvrtList, removeFromWishList } from '../../firestore';
+import { setWishList } from '../../features/AuthSlice';
 // import { setFvrtList } from '../../features/AuthSlice';
 
 function MovieInformation({ isDarkMode }) {
-  const { fvrtList } = useSelector((store) => store.userSlice);
+  const { fvrtList, wishList } = useSelector((store) => store.userSlice);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const featured = useSelector((store) => store.movieList.featured);
@@ -23,9 +24,32 @@ function MovieInformation({ isDarkMode }) {
   const { id } = useParams();
   const { data: selectedMovie, isFetching, isError } = useGetMovieByIdQuery(id);
   const { data: recommendations, isFetching: isFetchingRecommendation, isError: isErrorRecommendation } = useGetRecommendationsQuery({ list: 'recommendations', id, page });
-  // console.log('checking if movie is present', fvrtList.includes(selectedMovie?.id));
+
   // for toggling the fvrt button
   const [isFvrt, setFvrt] = useState(fvrtList.includes(selectedMovie?.id));
+  const [isWishList, setWish] = useState(wishList.includes(selectedMovie?.id));
+  console.log('fvrt list', fvrtList, fvrtList.includes(selectedMovie?.id));
+  // console.log('checking if movie is present', fvrtList.includes(selectedMovie?.id));
+
+  // remove wishList handler
+  function removeWishLishtHandler() {
+    console.log('inside remove wishLIst handler');
+    const movieId = selectedMovie?.id;
+    setWish(false);
+    removeFromWishList(movieId).then(() => {
+      dispatch(setWishList(wishList.filter((item) => item !== movieId)));
+      console.log('removing movie', selectedMovie.id);
+    });
+  }
+  // adding wishList handler
+  function addingWishLishtHandler() {
+    console.log('inside adding wishLIst handler');
+    const movieId = selectedMovie?.id;
+    setWish(true);
+    addToWishList(movieId).then(() => {
+      console.log('adding movie', selectedMovie.id);
+    });
+  }
   if (isFetching) {
     return <Loader />;
   }
@@ -100,6 +124,7 @@ function MovieInformation({ isDarkMode }) {
             <Link className="text-center w-28 bg-slate-400 rounded" to={selectedMovie?.homepage}>Website</Link>
             <button className="text-center w-28 bg-slate-400 rounded" onClick={() => setOpen(true)}>Trailer</button>
 
+            {/* fcrt list button */}
             <div className="text-center w-28 bg-slate-400 rounded">{!isFvrt ? (
               <button onClick={() => {
                 console.log('adding movie', selectedMovie?.id);
@@ -110,7 +135,16 @@ function MovieInformation({ isDarkMode }) {
               </button>
             ) : <button onClick={() => { console.log('removing movie', selectedMovie.id); removeFromFvrtList(selectedMovie?.id); setFvrt(false); }}>Not Fvrt</button>}
             </div>
-            <button className="text-center w-28 bg-slate-400 rounded" onClick={() => {}}>Wishlist</button>
+
+            {/* wish list button */}
+            <div className="text-center w-28 bg-slate-400 rounded">{!isWishList ? (
+              <button onClick={() => {
+                addingWishLishtHandler();
+              }}
+              >Wishlist +1
+              </button>
+            ) : <button onClick={() => { removeWishLishtHandler(); }}>Wishlist -1</button>}
+            </div>
             <button
               className="text-center w-28 bg-slate-400 rounded"
               onClick={() => {
