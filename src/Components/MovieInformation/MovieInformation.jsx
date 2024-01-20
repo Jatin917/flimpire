@@ -10,19 +10,22 @@ import MovieList from '../MovieList/MovieList';
 import Loader from '../Loader/Loader';
 import { Modal } from '..';
 import StarRating from '../StartRating/StarRating';
+import { addToFvrtList, removeFromFvrtList } from '../../firestore';
+// import { setFvrtList } from '../../features/AuthSlice';
 
 function MovieInformation({ isDarkMode }) {
+  const { fvrtList } = useSelector((store) => store.userSlice);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const featured = useSelector((store) => store.movieList.featured);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setFeatured(false));
-  }, []);
   const navigate = useNavigate();
   const { id } = useParams();
   const { data: selectedMovie, isFetching, isError } = useGetMovieByIdQuery(id);
   const { data: recommendations, isFetching: isFetchingRecommendation, isError: isErrorRecommendation } = useGetRecommendationsQuery({ list: 'recommendations', id, page });
+  // console.log('checking if movie is present', fvrtList.includes(selectedMovie?.id));
+  // for toggling the fvrt button
+  const [isFvrt, setFvrt] = useState(fvrtList.includes(selectedMovie?.id));
   if (isFetching) {
     return <Loader />;
   }
@@ -35,7 +38,7 @@ function MovieInformation({ isDarkMode }) {
   if (isErrorRecommendation) {
     return 'Some Error in Loading the data';
   }
-
+  console.log('selected movie is ', selectedMovie);
   return (
     <div className="flex items-center justify-center flex-col">
       <div className="flex h-screen">
@@ -97,7 +100,16 @@ function MovieInformation({ isDarkMode }) {
             <Link className="text-center w-28 bg-slate-400 rounded" to={selectedMovie?.homepage}>Website</Link>
             <button className="text-center w-28 bg-slate-400 rounded" onClick={() => setOpen(true)}>Trailer</button>
 
-            <button className="text-center w-28 bg-slate-400 rounded" onClick={() => {}}>Favourites</button>
+            <div className="text-center w-28 bg-slate-400 rounded">{!isFvrt ? (
+              <button onClick={() => {
+                console.log('adding movie', selectedMovie?.id);
+                addToFvrtList(selectedMovie?.id);
+                setFvrt(true);
+              }}
+              >Fvrt
+              </button>
+            ) : <button onClick={() => { console.log('removing movie', selectedMovie.id); removeFromFvrtList(selectedMovie?.id); setFvrt(false); }}>Not Fvrt</button>}
+            </div>
             <button className="text-center w-28 bg-slate-400 rounded" onClick={() => {}}>Wishlist</button>
             <button
               className="text-center w-28 bg-slate-400 rounded"

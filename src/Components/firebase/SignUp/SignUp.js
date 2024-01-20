@@ -1,4 +1,5 @@
 /* eslint-disable import/order */
+/* eslint-disable import/no-extraneous-dependencies */
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { ToastContainer, toast } from 'react-toastify';
 import { app } from '../../../firebase';
@@ -6,20 +7,26 @@ import './SignUp.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { setEmail, setPswd } from '../../../features/AuthSlice';
-import { makingDataBase } from '../../../firestore';
+import { useMakingDatabase } from '../../../firestore';
 
 const auth = getAuth(app);
 function SignUp() {
-  const { email, password } = useSelector((store) => store.userSlice);
+  const { email, password, fvrtList, wishList } = useSelector((store) => store.userSlice);
+  console.log(email, password, fvrtList, wishList);
   const dispatch = useDispatch();
 
   function signUpUser() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((value) => {
         toast.success(`Created account with ${value.user.email}`);
-        makingDataBase();
+        console.log('function executed start');
+        const { uid } = value.user;
+        localStorage.setItem('uid', uid);
+        useMakingDatabase(email, password, wishList, fvrtList);
+        console.log('function execution completed');
       })
       .catch((err) => {
+        console.log(err);
         toast.error(` ${err.message}`);
       });
   }
@@ -31,7 +38,8 @@ function SignUp() {
       </div>
 
       <div className="boxSignUp uppercase">
-        <lable>email</lable>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label>email</label>
         <input
           autoComplete="off"
           required
@@ -44,7 +52,8 @@ function SignUp() {
       </div>
 
       <div className="boxSignUp uppercase">
-        <lable>password</lable>
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+        <label>password</label>
         <input
           autoComplete="off"
           required
@@ -60,6 +69,7 @@ function SignUp() {
       <button
         className="bg-stone-800 px-3 py-1 rounded uppercase m-6 singUpbtn text-white"
         onClick={() => {
+          console.log('calling the sign up function');
           signUpUser();
         }}
       >create user

@@ -32,6 +32,10 @@ const userSlice = createSlice({
     setFvrtList(state, action) {
       state.fvrtList = action.payload;
     },
+    // addToFvrtList(state, action) {
+    //   const size = state.fvrtList.length;
+    //   state.fvrtList[size] = action.payload;
+    // },
   },
 });
 

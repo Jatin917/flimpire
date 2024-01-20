@@ -2,7 +2,7 @@
 /* eslint-disable react/button-has-type */
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 // eslint-disable-next-line import/no-cycle
@@ -12,8 +12,10 @@ import Search from '../Search/Search';
 import { fetchToken } from '../../utils';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'react-toastify/dist/ReactToastify.css';
+import SignIn from '../firebase/SignIn/SignIn';
 
 function NavBar({ isDarkMode, setDarkMode }) {
+  const navigate = useNavigate();
   const { searchQuery } = useSelector((store) => store.movieList);
   const isAuthenticated = true;
   const dispatch = useDispatch();
@@ -47,7 +49,7 @@ function NavBar({ isDarkMode, setDarkMode }) {
           >
             {isDarkMode ? <MdDarkMode /> : <CiLight />}
           </button>
-          {isAuthenticated ? <button onClick={() => { toast.info('Working on this!'); }}>Log in</button> : <button>My Movies</button>}
+          {isAuthenticated ? <button onClick={() => { navigate('/auth'); }}>New</button> : <button>My Movies</button>}
         </div>
       </div>
     </div>
