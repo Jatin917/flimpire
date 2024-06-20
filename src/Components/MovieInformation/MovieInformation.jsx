@@ -81,7 +81,7 @@ function MovieInformation({ isDarkMode }) {
           </div>
 
           {/* genres of movie */}
-          <div className="items-center flex gap-7 justify-center">
+          <div className="items-center border-black flex gap-7 justify-center">
             {selectedMovie?.genres?.map((genre) => (
               <button onClick={() => {
                 navigate('/');

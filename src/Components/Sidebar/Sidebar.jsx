@@ -17,6 +17,7 @@ const categories = [
 
 function Sidebar({ isDarkMode }) {
   const navigate = useNavigate();
+  // eslint-disable-next-line no-unused-vars
   const { data: GenresData, isFetching, isError } = useSearchMovieGenresQuery();
   const dispatch = useDispatch();
   if (isError) {
@@ -44,9 +45,9 @@ function Sidebar({ isDarkMode }) {
           ))}
         </div>
         <div className="text-sm font-extrathin border-t px-12 pt-4">Genres</div>
-        <div className="flex items-center justify-center flex-col gap-2">
+        <div className="flex items-center  justify-center min-h-screen flex-col gap-2">
           {isFetching ? (
-            <div>loading...</div>
+            <div className=" h-full">loading...</div>
           ) : (
             GenresData.genres.map((genre) => (
               // eslint-disable-next-line react/jsx-key
@@ -57,7 +58,7 @@ function Sidebar({ isDarkMode }) {
                 }}
                 type="button"
                 key={genre.id}
-                className="hover:bg-slate-200 w-full p-2 hover:text-black"
+                className="hover:bg-slate-200 w-full p-2  hover:text-black"
               >
                 {genre.name}
               </button>
