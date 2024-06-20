@@ -15,5 +15,5 @@ export { CiLight } from 'react-icons/ci';
 export { MdDarkMode } from 'react-icons/md';
 export { FaSearch } from 'react-icons/fa';
 
-export { default as netflix } from '../assets/images/netflix.png';
+export { default as flimpire } from '../assets/images/flimpire.png';
 export { default as user } from '../assets/images/user.png';

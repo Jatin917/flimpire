@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 // eslint-disable-next-line import/no-cycle
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-cycle
-import { netflix } from '..';
+import { flimpire } from '..';
 import { useSearchMovieGenresQuery } from '../../services/TMDB';
 import { setType } from '../../features/MovieSlice';
 
@@ -24,7 +24,7 @@ function Sidebar({ isDarkMode }) {
   }
   return (
     <div className={`overflow-y-scroll flex items-center justify-between flex-col w-full h-full ${isDarkMode ? 'bg-slate-800 text-white' : 'bg-slate-200'}`}>
-      <img src={netflix} className="w-[150px]" />
+      <img src={flimpire} className="w-[150px] mt-6" />
       <div className="  flex gap-4 flex-col w-full py-3">
         <div className="text-sm font-extrathin border-t px-12 pt-4">Categories</div>
         <div className="flex items-center justify-center flex-col gap-2 ">

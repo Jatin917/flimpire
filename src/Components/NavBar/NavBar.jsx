@@ -49,7 +49,7 @@ function NavBar({ isDarkMode, setDarkMode }) {
       }`}
     >
       <div className="flex items-center justify-between px-3 font-semibold border-black w-full">
-        {/* nav bar netflix logo and links */}
+        {/* nav bar flimpire logo and links */}
         <div className="flex items-center justify-between w-[40%]">
           <Link to="/"> Home</Link>
           <Link to="/movies">TV Shows</Link>

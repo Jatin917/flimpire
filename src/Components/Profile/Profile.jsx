@@ -19,7 +19,7 @@ function Profile() {
       fetchDocumentData(uid)
         .then((Data) => {
           // console.log('inside app', Data?.fvrtList, Data?.fvrtList !== 'undefined');
-          console.log(Data?.fvrtList, Data !== 'undefined');
+          console.log('fvrt movies here ', Data?.fvrtList, Data !== 'undefined');
           // eslint-disable-next-line no-unused-expressions
           Data !== 'undefined' && dispatch(setFvrtList(Data?.fvrtList));
           // eslint-disable-next-line no-unused-expressions
