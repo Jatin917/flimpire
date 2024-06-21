@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable import/newline-after-import */
 import React from 'react';
 // eslint-disable-next-line import/no-cycle
@@ -17,24 +18,28 @@ const categories = [
 
 function Sidebar({ isDarkMode }) {
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
-  const { data: GenresData, isFetching, isError } = useSearchMovieGenresQuery();
+  const { data: GenresData, isFetching } = useSearchMovieGenresQuery();
   const dispatch = useDispatch();
-  if (isError) {
-    return 'error in loading data of genres';
-  }
+
+  // if (isError) {
+  //   return (
+  //     <div className="h-[calc(100vh-100px)] flex justify-center items-center bg-inherit">
+  //       Error in loading data
+  //     </div>
+  //   );
+  // }
+
   return (
     <div className={`overflow-y-scroll flex items-center justify-between flex-col w-full h-full ${isDarkMode ? 'bg-slate-800 text-white' : 'bg-slate-200'}`}>
-      <img src={flimpire} className="w-[150px] mt-6" />
-      <div className="  flex gap-4 flex-col w-full py-3">
+      <img src={flimpire} className="w-[150px] mt-6" alt="Logo" />
+      <div className="flex gap-4 flex-col w-full py-3">
         <div className="text-sm font-extrathin border-t px-12 pt-4">Categories</div>
-        <div className="flex items-center justify-center flex-col gap-2 ">
+        <div className="flex items-center justify-center flex-col gap-2">
           {categories.map((category, i) => (
-            // eslint-disable-next-line react/jsx-key
             <button
               onClick={() => {
                 navigate('/');
-                dispatch(setType(categories[i].key));
+                dispatch(setType(category.key));
               }}
               type="button"
               key={i}
@@ -45,24 +50,27 @@ function Sidebar({ isDarkMode }) {
           ))}
         </div>
         <div className="text-sm font-extrathin border-t px-12 pt-4">Genres</div>
-        <div className="flex items-center  justify-center min-h-screen flex-col gap-2">
+        <div className="flex items-center justify-center min-h-screen flex-col gap-2">
           {isFetching ? (
-            <div className=" h-full">loading...</div>
+            <div className="h-full">Loading...</div>
           ) : (
-            GenresData.genres.map((genre) => (
-              // eslint-disable-next-line react/jsx-key
-              <button
-                onClick={() => {
-                  navigate('/');
-                  dispatch(setType(genre.id));
-                }}
-                type="button"
-                key={genre.id}
-                className="hover:bg-slate-200 w-full p-2  hover:text-black"
-              >
-                {genre.name}
-              </button>
-            ))
+            GenresData ? (
+              GenresData.genres.map((genre) => (
+                <button
+                  onClick={() => {
+                    navigate('/');
+                    dispatch(setType(genre.id));
+                  }}
+                  type="button"
+                  key={genre.id}
+                  className="hover:bg-slate-200 w-full p-2 hover:text-black"
+                >
+                  {genre.name}
+                </button>
+              ))
+            ) : (
+              <div className="bg-inherit h-full flex justify-center">Error in loading data </div>
+            )
           )}
         </div>
       </div>
