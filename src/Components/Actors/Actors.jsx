@@ -21,7 +21,7 @@ function Actors() {
     return <Loader />;
   }
   if (isErrorRecommendation) {
-    return 'Error in Loading data';
+    return 'Error in Loading data of actors';
   }
   return (
     <div>
